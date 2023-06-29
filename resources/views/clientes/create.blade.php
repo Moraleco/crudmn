@@ -1,0 +1,128 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="display-4">Cadastrar Cliente</h1>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST" action="{{ route('clientes.store') }}">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">Telefone</label>
+                            <input type="text" class="form-control telefone" id="telefone" name="telefone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documento">Documento</label>
+                            <input type="text" class="form-control" id="documento" name="documento" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cep">CEP</label>
+                            <input type="text" class="form-control cep" id="cep" name="cep" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="logradouro">Logradouro</label>
+                            <input type="text" class="form-control" id="logradouro" name="logradouro" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" class="form-control" id="bairro" name="bairro" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" class="form-control" id="cidade" name="cidade" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <input type="text" class="form-control" id="estado" name="estado" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="numero">Número</label>
+                            <input type="text" class="form-control" id="numero" name="numero" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CDN do IMask.js -->
+<script src="https://cdn.jsdelivr.net/npm/imask@latest"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Aplicar a máscara de telefone
+        var telefoneInput = document.getElementById('telefone');
+        var telefoneMask = IMask(telefoneInput, {
+            mask: '(00) 9 0000-0000'
+        });
+
+        // Aplicar a máscara de CPF ou CNPJ
+        var documentoInput = document.getElementById('documento');
+
+        documentoInput.addEventListener('input', function() {
+            var valorDocumento = documentoInput.value.replace(/\D/g, '');
+            
+            if (valorDocumento.length === 11) {
+                documentoInput.value = valorDocumento.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else if (valorDocumento.length === 14) {
+                documentoInput.value = valorDocumento.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+            } else {
+                // Se o valor não tiver 11 ou 14 dígitos, remove qualquer formatação existente
+                documentoInput.value = valorDocumento;
+            }
+        });
+
+
+        // Aplicar a máscara de CEP
+        var cepInput = document.getElementById('cep');
+        var cepMask = IMask(cepInput, {
+            mask: '00000-000'
+        });
+
+        // Preencher automaticamente os campos do endereço ao preencher o CEP
+        cepInput.addEventListener('blur', function() {
+            var cep = cepInput.value.replace(/\D/g, '');
+            if (cep.length == 8) {
+                fetch('https://viacep.com.br/ws/' + cep + '/json/')
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (data.hasOwnProperty('erro')) {
+                            alert('CEP não encontrado.');
+                        } else {
+                            document.getElementById('logradouro').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('cidade').value = data.localidade;
+                            document.getElementById('estado').value = data.uf;
+                            document.getElementById('numero').focus();
+                        }
+                    })
+                    .catch(function() {
+                        alert('Erro ao consultar o CEP.');
+                    });
+            }
+        });
+    });
+</script>
+@endsection
