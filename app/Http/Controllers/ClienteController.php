@@ -16,21 +16,28 @@ class ClienteController extends Controller
 
     public function create()
     {
-        $enderecos = Endereco::all(); // ou qualquer outra lógica para obter os endereços
-    
+        $enderecos = Endereco::all();
         return view('clientes.create')->with('enderecos', $enderecos);
     }
-    
 
     public function store(Request $request)
     {
         $request->validate([
             'nome' => 'required',
             'telefone' => 'required',
-            'documento' => 'required',
+            'documento_type' => 'required', // Validating the document type selection
+            'cpf' => $request->input('documento_type') === 'cpf' ? 'unique:clientes,cpf|nullable' : '',
+            'cnpj' => $request->input('documento_type') === 'cnpj' ? 'unique:clientes,cnpj|nullable' : '',
         ]);
 
-        $cliente = Cliente::create($request->all());
+        $clienteData = $request->except(['_token', 'documento_type', 'cpf', 'cnpj']);
+        if ($request->input('documento_type') === 'cpf') {
+            $clienteData['cpf'] = $request->input('cpf');
+        } elseif ($request->input('documento_type') === 'cnpj') {
+            $clienteData['cnpj'] = $request->input('cnpj');
+        }
+
+        $cliente = Cliente::create($clienteData);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente criado com sucesso.')
@@ -52,14 +59,26 @@ class ClienteController extends Controller
         $request->validate([
             'nome' => 'required',
             'telefone' => 'required',
-            'documento' => 'required',
+            'documento_type' => 'required', // Validating the document type selection
+            'cpf' => $request->input('documento_type') === 'cpf' ? 'unique:clientes,cpf,' . $cliente->id . '|nullable' : '',
+            'cnpj' => $request->input('documento_type') === 'cnpj' ? 'unique:clientes,cnpj,' . $cliente->id . '|nullable' : '',
         ]);
-
-        $cliente->update($request->all());
-
+    
+        $clienteData = $request->except(['_token', 'documento_type', 'cpf', 'cnpj']);
+        if ($request->input('documento_type') === 'cpf') {
+            $clienteData['cpf'] = $request->input('cpf');
+            $clienteData['cnpj'] = null;
+        } elseif ($request->input('documento_type') === 'cnpj') {
+            $clienteData['cnpj'] = $request->input('cnpj');
+            $clienteData['cpf'] = null;
+        }
+    
+        $cliente->update($clienteData);
+    
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente atualizado com sucesso.');
     }
+    
 
     public function destroy(Cliente $cliente)
     {

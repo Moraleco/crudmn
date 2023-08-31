@@ -12,7 +12,8 @@ class CreateClientesTable extends Migration
             $table->increments('id');
             $table->string('nome', 100);
             $table->string('telefone', 20);
-            $table->string('documento', 20);
+            $table->string('cpf', 14)->unique()->nullable();
+            $table->string('cnpj', 18)->unique()->nullable();
             $table->timestamps();
         });
     }

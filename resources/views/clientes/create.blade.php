@@ -24,10 +24,22 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="documento">Documento</label>
-                            <input type="text" class="form-control" id="documento" name="documento" required>
+                            <label for="documento_type">Tipo de Documento</label><br>
+                            <input type="radio" id="cpf_radio" name="documento_type" value="cpf" checked>
+                            <label for="cpf_radio">CPF</label>
+                            <input type="radio" id="cnpj_radio" name="documento_type" value="cnpj">
+                            <label for="cnpj_radio">CNPJ</label>
                         </div>
 
+                        <div class="form-group" id="cpf_group">
+                            <label for="cpf">CPF</label>
+                            <input type="text" class="form-control cpf" id="cpf" name="cpf">
+                        </div>
+
+                        <div class="form-group" id="cnpj_group" style="display: none;">
+                            <label for="cnpj">CNPJ</label>
+                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj">
+                        </div>
                         <div class="form-group">
                             <label for="cep">CEP</label>
                             <input type="text" class="form-control cep" id="cep" name="cep" required>
@@ -45,7 +57,7 @@
 
                         <div class="form-group">
                             <label for="cidade">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" name="cidade" required>
+                            <input type="text" class="form-control" id="cidade" name="cidade" required value="cidade">
                         </div>
 
                         <div class="form-group">
@@ -76,22 +88,17 @@
             mask: '(00) 9 0000-0000'
         });
 
-        // Aplicar a máscara de CPF ou CNPJ
-        var documentoInput = document.getElementById('documento');
-
-        documentoInput.addEventListener('input', function() {
-            var valorDocumento = documentoInput.value.replace(/\D/g, '');
-            
-            if (valorDocumento.length === 11) {
-                documentoInput.value = valorDocumento.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-            } else if (valorDocumento.length === 14) {
-                documentoInput.value = valorDocumento.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-            } else {
-                // Se o valor não tiver 11 ou 14 dígitos, remove qualquer formatação existente
-                documentoInput.value = valorDocumento;
-            }
+        // Aplicar a máscara de CPF
+        var cpfInput = document.getElementById('cpf');
+        var cpfMask = IMask(cpfInput, {
+            mask: '000.000.000-00'
         });
 
+        // Aplicar a máscara de CNPJ
+        var cnpjInput = document.getElementById('cnpj');
+        var cnpjMask = IMask(cnpjInput, {
+            mask: '00.000.000/0000-00'
+        });
 
         // Aplicar a máscara de CEP
         var cepInput = document.getElementById('cep');
@@ -124,5 +131,23 @@
             }
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var cpfRadio = document.getElementById('cpf_radio');
+        var cnpjRadio = document.getElementById('cnpj_radio');
+        var cpfGroup = document.getElementById('cpf_group');
+        var cnpjGroup = document.getElementById('cnpj_group');
+
+        cpfRadio.addEventListener('click', function() {
+            cpfGroup.style.display = 'block';
+            cnpjGroup.style.display = 'none';
+        });
+
+        cnpjRadio.addEventListener('click', function() {
+            cnpjGroup.style.display = 'block';
+            cpfGroup.style.display = 'none';
+        });
+    });
+
 </script>
 @endsection

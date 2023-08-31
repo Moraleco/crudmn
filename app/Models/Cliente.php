@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    protected $fillable = ['nome', 'telefone', 'documento', 'endereco'];
+    protected $fillable = ['nome', 'telefone', 'cpf', 'cnpj', 'endereco'];
 
     public function endereco()
     {
