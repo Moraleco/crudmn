@@ -19,6 +19,7 @@ class EnderecoController extends Controller
             'logradouro' => 'required',
             'numero' => 'required',
             'cidade' => 'required',
+            'bairro' => 'required',
             'estado' => 'required',
             'cep' => 'required',
         ]);
@@ -40,6 +41,7 @@ class EnderecoController extends Controller
             'logradouro' => 'required',
             'numero' => 'required',
             'cidade' => 'required',
+            'bairro' => 'required',
             'estado' => 'required',
             'cep' => 'required',
         ]);

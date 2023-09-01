@@ -1,11 +1,11 @@
-<!-- resources/views/clientes/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
+<div class="d-flex">
+    @include('sidebar')
     <div class="container">
         <h1>Lista de Clientes</h1>
-        <a href="{{ route('clientes.create') }}" class="btn btn-primary">Novo Cliente</a>
+        <a href="{{ route('clientes.create') }}" class="btn btn-primary">Novo Cliente </a>
         <table class="table">
             <thead>
                 <tr>
@@ -39,4 +39,5 @@
             </tbody>
         </table>
     </div>
+</div>
 @endsection

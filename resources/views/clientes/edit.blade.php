@@ -3,6 +3,8 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="d-flex">
+    @section('sidebar')
     <div class="container">
         <h1>Editar Cliente</h1>
         <form action="{{ route('clientes.update', $cliente) }}" method="POST">
@@ -25,3 +27,5 @@
         </form>
     </div>
 @endsection
+</div>
+

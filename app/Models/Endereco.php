@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Endereco extends Model
 {
-    protected $fillable = ['logradouro', 'numero', 'cidade', 'estado', 'cep'];
+    protected $fillable = ['cliente_id', 'logradouro', 'numero', 'cidade', 'estado', 'cep', 'bairro'];
 
     public function cliente()
     {
