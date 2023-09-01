@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="d-flex">
+    @include('sidebar')
     <div class="container">
         <h1>Criar Novo Orçamento</h1>
 
@@ -38,9 +40,13 @@
 
             <div class="form-group">
                 <label for="forma_pagamento">Forma de Pagamento:</label>
-                <input type="text" name="forma_pagamento" id="forma_pagamento" class="form-control" required>
+                <select name="forma_pagamento" id="forma_pagamento" class="form-control" required>
+                    @foreach ($forma_pagamento as $forma)
+                        <option value="{{ $forma }}">{{ $forma }}</option>
+                    @endforeach
+                </select>
             </div>
-
+            
             <div class="form-group">
                 <label for="informacoes_adicionais">Informações Adicionais:</label>
                 <textarea name="informacoes_adicionais" id="informacoes_adicionais" class="form-control"></textarea>
@@ -55,4 +61,6 @@
             <a href="{{ route('orcamentos.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
+</div>
+
 @endsection

@@ -17,8 +17,10 @@ class OrcamentoController extends Controller
     public function create()
     {
         $clientes = Cliente::all();
-        return view('orcamentos.create', compact('clientes'));
+        $forma_pagamento = ['Pix', 'Dinheiro', 'Cartão de Crédito', 'Boleto Bancário', 'Transferência Bancária'];
+        return view('orcamentos.create', compact('clientes', 'forma_pagamento'));
     }
+    
 
     public function store(Request $request)
     {
@@ -33,7 +35,6 @@ class OrcamentoController extends Controller
         ]);
 
         Orcamento::create($request->all());
-
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento criado com sucesso.');
     }

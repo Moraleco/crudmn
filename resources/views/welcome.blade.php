@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex" id="page-top">
+
+    <div class="d-flex" id="page-top">   
         @include('sidebar')
+        @include('topbar')
+        
         
         <div class="jumbotron flex-grow-1">
             <div class="container">

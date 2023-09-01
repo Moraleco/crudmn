@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OrcaFacil - Sistema de Orçamentos</title>
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-
+    {{-- <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <script src="https://kit.fontawesome.com/77c7bbe9b9.js" crossorigin="anonymous"></script>
     <!-- Adicione os arquivos CSS do Bootstrap -->
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> --}}
 </head>

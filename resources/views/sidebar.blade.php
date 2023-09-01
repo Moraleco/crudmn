@@ -31,18 +31,19 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
+            <i class="fas fa-fw fa-newspaper"></i>
+            {{-- <i class="fas fa-fw fa-cog"></i> --}}
             <span>Cadastro</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Clientes</h6>
-                <a class="collapse-item" href="{{route ('clientes.create')}}">Clientes</a>
-                <a class="collapse-item" href="{{route ('clientes.index')}}">Clientes Cadastrados</a>
+                <a class="collapse-item" href="{{route ('clientes.index')}}">Clientes</a>
+                <a class="collapse-item" href="{{route ('clientes.create')}}">Novo Cliente</a>
             </div>
         </div>
     </li>
-
+    
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -55,9 +56,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Ordem de Serviço:</h6>
                 <a class="collapse-item" href="{{route('orcamentos.create')}}">Nova Ordem de Serviço</a>
-                <a class="collapse-item" href="utilities-border.html">Borders</a>
-                <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                <a class="collapse-item" href="utilities-other.html">Other</a>
+                <a class="collapse-item" href="{{route('orcamentos.index')}}">Ordens de Serviço</a>
+                <a class="collapse-item" href="#">Alterar Ordem de Serviço</a>
             </div>
         </div>
     </li>

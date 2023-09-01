@@ -54,6 +54,7 @@ class ClienteController extends Controller
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente criado com sucesso.')
             ->with('cliente_id', $cliente->id);
+             
     }
     
     public function show(Cliente $cliente)
