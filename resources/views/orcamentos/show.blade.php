@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="d-flex">
+    @include('sidebar')
     <div class="container">
         <h1>Detalhes do Orçamento</h1>
-
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">Cliente: {{ $orcamento->cliente->nome }}</h5>
@@ -19,4 +20,5 @@
 
         <a href="{{ route('orcamentos.index') }}" class="btn btn-secondary">Voltar</a>
     </div>
+</div>
 @endsection
