@@ -14,4 +14,12 @@ class Endereco extends Model
     {
         return $this->belongsTo(Cliente::class);
     }
+
+    public function setCepAttribute($value){
+        
+        return $this->attributes['cep'] = preg_replace('/[^0-9]/','', $value);
+
+
+    }
+
 }
