@@ -33,11 +33,34 @@ class OrcamentoController extends Controller
             'forma_pagamento' => 'required',
             'valor_final' => 'required',
         ]);
-
-        Orcamento::create($request->all());
+    
+        // Obtenha os valores dos campos do formulário
+        $cliente_id = $request->input('cliente_id');
+        $servicos = $request->input('servicos');
+        $desconto = $request->input('desconto');
+        $frete = $request->input('frete');
+        $outras_taxas = $request->input('outras_taxas');
+        $forma_pagamento = $request->input('forma_pagamento');
+    
+        // Calcule o valor final considerando desconto, frete e outras taxas
+        $valor_final = $request->input('valor_final') + $frete + $outras_taxas - $desconto;
+    
+        // Crie o novo orçamento com os valores calculados
+        Orcamento::create([
+            'cliente_id' => $cliente_id,
+            'servicos' => $servicos,
+            'desconto' => $desconto,
+            'frete' => $frete,
+            'outras_taxas' => $outras_taxas,
+            'forma_pagamento' => $forma_pagamento,
+            'valor_final' => $valor_final,
+        ]);
+    
+        // Redirecione de volta à página de índice com uma mensagem de sucesso
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento criado com sucesso.');
     }
+    
 
     public function show(Orcamento $orcamento)
     {
@@ -61,12 +84,34 @@ class OrcamentoController extends Controller
             'forma_pagamento' => 'required',
             'valor_final' => 'required',
         ]);
-
-        $orcamento->update($request->all());
-
+    
+        // Obtenha os valores dos campos do formulário
+        $cliente_id = $request->input('cliente_id');
+        $servicos = $request->input('servicos');
+        $desconto = $request->input('desconto');
+        $frete = $request->input('frete');
+        $outras_taxas = $request->input('outras_taxas');
+        $forma_pagamento = $request->input('forma_pagamento');
+    
+        // Calcule o valor final considerando desconto, frete e outras taxas
+        $valor_final = $request->input('valor_final') + $frete + $outras_taxas - $desconto;
+    
+        // Atualize os campos do orçamento
+        $orcamento->update([
+            'cliente_id' => $cliente_id,
+            'servicos' => $servicos,
+            'desconto' => $desconto,
+            'frete' => $frete,
+            'outras_taxas' => $outras_taxas,
+            'forma_pagamento' => $forma_pagamento,
+            'valor_final' => $valor_final,
+        ]);
+    
+        // Redirecione de volta à página de índice com uma mensagem de sucesso
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento atualizado com sucesso.');
     }
+    
 
     public function destroy(Orcamento $orcamento)
     {
