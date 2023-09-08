@@ -3,9 +3,6 @@
 @section('content')
 <div class="d-flex">
     @include('sidebar')
-    <div class="row">
-
-    </div>
     <div class="container">
         <h1>Criar Novo Orçamento</h1>
 
