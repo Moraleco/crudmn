@@ -3,6 +3,8 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="d-flex">
+    @include('sidebar')
     <div class="container">
         <h1>Lista de Orçamentos</h1>
         <a class="btn btn-primary mb-3" href="{{ route('orcamentos.create') }}">Criar Novo Orçamento</a>
@@ -38,4 +40,6 @@
             </tbody>
         </table>
     </div>
+</div>
+
 @endsection

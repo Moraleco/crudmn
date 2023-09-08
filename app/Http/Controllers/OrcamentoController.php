@@ -31,6 +31,7 @@ class OrcamentoController extends Controller
             'frete' => 'required',
             'outras_taxas' => 'required',
             'forma_pagamento' => 'required',
+            'valor_do_servico' => 'required',
             'valor_final' => 'required',
         ]);
 
@@ -59,6 +60,7 @@ class OrcamentoController extends Controller
             'frete' => 'required',
             'outras_taxas' => 'required',
             'forma_pagamento' => 'required',
+            'valor_do_servico' => 'required',
             'valor_final' => 'required',
         ]);
 
