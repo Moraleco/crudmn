@@ -13,7 +13,6 @@ class AddBairroToEnderecosTable extends Migration
             // Adiciona a coluna "bairro" após "cidade"
         });
     }
-
     public function down()
     {
         Schema::table('enderecos', function (Blueprint $table) {
