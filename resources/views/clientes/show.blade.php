@@ -10,7 +10,7 @@
             <div class="card-body">
                 <p>Telefone: {{ $cliente->telefone }}</p>
                 <p>Documento: {{ $cliente->documento }}</p>
-                <p>Endereço: {{ $cliente->endereco }}</p>
+                <p>Endereço: {{ $cliente->endereco->cep }}</p>
             </div>
         </div>
         <a href="{{ route('clientes.index') }}" class="btn btn-secondary">Voltar</a>
