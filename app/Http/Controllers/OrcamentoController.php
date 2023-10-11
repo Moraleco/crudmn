@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Orcamento;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class OrcamentoController extends Controller
 {
@@ -77,4 +79,35 @@ class OrcamentoController extends Controller
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento excluído com sucesso.');
     }
+
+    public function generatePDF(Orcamento $orcamento)
+    {   
+        $logo=base64_encode(file_get_contents(storage_path("app/public/img/logo.png")));
+        
+        // Crie uma instância do Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+    
+        $dompdf = new Dompdf($options);
+    
+        // Carregue a visão 'orcamentos.pdf' com os dados do orçamento
+        $html = view('orcamentos.pdf', compact('orcamento','logo'))->render();
+    
+        // Carregue o conteúdo HTML no Dompdf
+        $dompdf->loadHtml($html);
+    
+        // Defina opções de renderização, se necessário
+        $dompdf->setPaper('A4', 'portrait');
+    
+        // Renderize o PDF
+        $dompdf->render();
+    
+        // O nome do arquivo PDF gerado
+        $filename = 'orcamento_' . $orcamento->id . '.pdf';
+    
+        // Faça o download do PDF para o navegador
+        return $dompdf->stream($filename);
+    }
+
 }

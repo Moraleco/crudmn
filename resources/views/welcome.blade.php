@@ -2,11 +2,12 @@
 
 @section('content')
 
-    <div class="d-flex" id="page-top">   
-        @include('sidebar')
-        
-        <div class="jumbotron flex-grow-1">
-            <div class="container">
+<div class="d-flex" id="page-top">  
+    @include('sidebar')
+    <div class="flex-grow-1">
+        @include('topbar') 
+        <div class="container-fluid">
+            <div class="jumbotron">
                 <h1 class="display-4">Bem-vindo ao Seu Aplicativo!</h1>
                 <p class="lead">Este é o seu aplicativo Laravel recém-criado. Use-o como base para criar coisas incríveis.</p>
                 <hr class="my-4">
@@ -14,5 +15,6 @@
             </div>
         </div>
     </div>
-    
+</div>
+
 @endsection
