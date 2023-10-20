@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orcamento extends Model
 {
-    protected $fillable = ['cliente_id', 'servicos', 'desconto', 'frete', 'outras_taxas', 'forma_pagamento', 'informacoes_adicionais','valor_do_servico', 'valor_final'];
+    protected $fillable = ['cliente_id', 'servicos', 'desconto', 'frete', 'outras_taxas', 'forma_pagamento','status','situacao_pagamento', 'informacoes_adicionais','valor_do_servico', 'valor_final'];
 
     public function cliente()
     {

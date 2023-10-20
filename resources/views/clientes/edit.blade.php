@@ -129,5 +129,76 @@
             verificarDocumento();
         });
 </script>
+    <!-- CDN do IMask.js -->
+    <script src="https://cdn.jsdelivr.net/npm/imask@latest"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aplicar a máscara de telefone
+            var telefoneInput = document.getElementById('telefone');
+            var telefoneMask = IMask(telefoneInput, {
+                mask: '(00) 9 0000-0000'
+            });
+
+            // Aplicar a máscara de CPF
+            var cpfInput = document.getElementById('cpf');
+            var cpfMask = IMask(cpfInput, {
+                mask: '000.000.000-00'
+            });
+
+            // Aplicar a máscara de CNPJ
+            var cnpjInput = document.getElementById('cnpj');
+            var cnpjMask = IMask(cnpjInput, {
+                mask: '00.000.000/0000-00'
+            });
+
+            // Aplicar a máscara de CEP
+            var cepInput = document.getElementById('cep');
+            var cepMask = IMask(cepInput, {
+                mask: '00000-000'
+            });
+
+            // Preencher automaticamente os campos do endereço ao preencher o CEP
+            cepInput.addEventListener('blur', function() {
+                var cep = cepInput.value.replace(/\D/g, '');
+                if (cep.length == 8) {
+                    fetch('https://viacep.com.br/ws/' + cep + '/json/')
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(data) {
+                            if (data.hasOwnProperty('erro')) {
+                                alert('CEP não encontrado.');
+                            } else {
+                                document.getElementById('logradouro').value = data.logradouro;
+                                document.getElementById('bairro').value = data.bairro;
+                                document.getElementById('cidade').value = data.localidade;
+                                document.getElementById('estado').value = data.uf;
+                                document.getElementById('numero').focus();
+                            }
+                        })
+                        .catch(function() {
+                            alert('Erro ao consultar o CEP.');
+                        });
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var cpfRadio = document.getElementById('cpf_radio');
+            var cnpjRadio = document.getElementById('cnpj_radio');
+            var cpfGroup = document.getElementById('cpf_group');
+            var cnpjGroup = document.getElementById('cnpj_group');
+
+            cpfRadio.addEventListener('click', function() {
+                cpfGroup.style.display = 'block';
+                cnpjGroup.style.display = 'none';
+            });
+
+            cnpjRadio.addEventListener('click', function() {
+                cnpjGroup.style.display = 'block';
+                cpfGroup.style.display = 'none';
+            });
+        });
+    </script>
 
 @endsection

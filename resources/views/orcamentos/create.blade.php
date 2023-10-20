@@ -28,6 +28,20 @@
                     <textarea name="informacoes_adicionais" id="informacoes_adicionais" class="form-control"></textarea>
                 </div>
 
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <textarea name="status" id="status" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="situacao_pagamento">Sitaução do Pagamento:</label>
+                    <select name="situacao_pagamento" id="situacao_pagamento" class="form-control" required>
+                        @foreach ($situacao_pagamento as $pagamento)
+                        <option value="{{ $pagamento }}">{{ $pagamento }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
 
                 <div class="card shadow mb-4">
                     <!-- Card Header - Accordion -->

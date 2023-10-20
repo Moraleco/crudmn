@@ -20,7 +20,8 @@ class OrcamentoController extends Controller
     {
         $clientes = Cliente::all();
         $forma_pagamento = ['Pix', 'Dinheiro', 'Cartão de Crédito', 'Boleto Bancário', 'Transferência Bancária'];
-        return view('orcamentos.create', compact('clientes', 'forma_pagamento'));
+        $situacao_pagamento = ['A Pagar','Pago'];
+        return view('orcamentos.create', compact('clientes', 'forma_pagamento', 'situacao_pagamento'));
     }
     
 
@@ -31,6 +32,8 @@ class OrcamentoController extends Controller
             'servicos' => 'required',
             'desconto' => 'required',
             'frete' => 'required',
+            'status' => 'required',
+            'situacao_pagamento' => 'required',
             'outras_taxas' => 'required',
             'forma_pagamento' => 'required',
             'valor_do_servico' => 'required',
@@ -60,6 +63,8 @@ class OrcamentoController extends Controller
             'servicos' => 'required',
             'desconto' => 'required',
             'frete' => 'required',
+            'status' => 'required',
+            'situacao_pagamento' => 'required',
             'outras_taxas' => 'required',
             'forma_pagamento' => 'required',
             'valor_do_servico' => 'required',

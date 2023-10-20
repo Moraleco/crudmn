@@ -181,5 +181,119 @@
                 cpfGroup.style.display = 'none';
             });
         });
+
+        
     </script>
+    <!-- Adicione este script à sua página Blade -->
+<script>
+    // Função para validar CPF
+    function isCPFValid(cpf) {
+        // Remove qualquer caractere que não seja dígito
+        cpf = cpf.replace(/\D/g, '');
+
+        // Verifica se o CPF não está vazio e tem 11 dígitos
+        if (cpf.length !== 11) {
+            return false;
+        }
+
+        // Verifica se todos os dígitos são iguais (CPF inválido)
+        if (/^(\d)\1{10}$/.test(cpf)) {
+            return false;
+        }
+
+        // Calcula o primeiro dígito verificador
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += parseInt(cpf.charAt(i)) * (10 - i);
+        }
+        let remainder = sum % 11;
+        let digit1 = remainder < 2 ? 0 : 11 - remainder;
+
+        // Calcula o segundo dígito verificador
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += parseInt(cpf.charAt(i)) * (11 - i);
+        }
+        remainder = sum % 11;
+        let digit2 = remainder < 2 ? 0 : 11 - remainder;
+
+        // Verifica se os dígitos verificadores coincidem
+        return parseInt(cpf.charAt(9)) === digit1 && parseInt(cpf.charAt(10)) === digit2;
+    }
+
+    // Função para validar CNPJ
+    function isCNPJValid(cnpj) {
+        // Remove qualquer caractere que não seja dígito
+        cnpj = cnpj.replace(/\D/g, '');
+
+        // Verifica se o CNPJ não está vazio e tem 14 dígitos
+        if (cnpj.length !== 14) {
+            return false;
+        }
+
+        // Calcula o primeiro dígito verificador
+        let sum = 0;
+        let weight = 5;
+        for (let i = 0; i < 12; i++) {
+            sum += parseInt(cnpj.charAt(i)) * weight;
+            weight = (weight === 2) ? 9 : weight - 1;
+        }
+        let remainder = sum % 11;
+        let digit1 = remainder < 2 ? 0 : 11 - remainder;
+
+        // Calcula o segundo dígito verificador
+        sum = 0;
+        weight = 6;
+        for (let i = 0; i < 13; i++) {
+            sum += parseInt(cnpj.charAt(i)) * weight;
+            weight = (weight === 2) ? 9 : weight - 1;
+        }
+        remainder = sum % 11;
+        let digit2 = remainder < 2 ? 0 : 11 - remainder;
+
+        // Verifica se os dígitos verificadores coincidem
+        return parseInt(cnpj.charAt(12)) === digit1 && parseInt(cnpj.charAt(13)) === digit2;
+    }
+
+    // Anexa um ouvinte de evento à submissão do formulário
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // Obtém o tipo de documento selecionado
+        const cpfRadio = document.getElementById('cpf_radio');
+        const cnpjRadio = document.getElementById('cnpj_radio');
+        
+        if (cpfRadio.checked) {
+            // Obtém o valor do campo CPF
+            const cpfInput = document.getElementById('cpf');
+            const cpfValue = cpfInput.value;
+            
+            // Verifica se o CPF inserido é válido
+            if (!isCPFValid(cpfValue)) {
+                // Impede o envio do formulário
+                event.preventDefault();
+                
+                // Exibe uma mensagem de erro
+                alert('CPF inválido. Por favor, insira um CPF válido.');
+            }
+        } else if (cnpjRadio.checked) {
+            // Obtém o valor do campo CNPJ
+            const cnpjInput = document.getElementById('cnpj');
+            const cnpjValue = cnpjInput.value;
+            
+            // Verifica se o CNPJ inserido é válido
+            if (!isCNPJValid(cnpjValue)) {
+                // Impede o envio do formulário
+                event.preventDefault();
+                
+                // Exibe uma mensagem de erro
+                alert('CNPJ inválido. Por favor, insira um CNPJ válido.');
+            }
+        }
+    });
+</script>
+
+
+
+
+
+    
 @endsection
