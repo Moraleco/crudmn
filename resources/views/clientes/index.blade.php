@@ -19,7 +19,7 @@
                         <a href="{{ route('clientes.create') }}" class="btn btn-primary col-md-4"
                             style="margin: 10px !important">Novo Cliente</a>
                     </div>
-                    <div class="card shadow mb-4 table-container">
+                    <div class="card shadow mb-4 table-container border-left-primary">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table hover compact" id="myTable" width="100%" cellspacing="0">
@@ -46,26 +46,35 @@
                                                         {{ $cliente->cnpj }}
                                                     @endif
                                                 </td>
-                                                <td>{{ $cliente->endereco->cidade }} - {{ $cliente->endereco->estado }}</td>
+                                                <td>
+                                                    @if ($cliente->endereco)
+                                                        {{ $cliente->endereco->cidade }} - {{ $cliente->endereco->estado }}
+                                                    @else
+                                                        Endereço não definido
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <button class="btn btn-link dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </button>
-                                                        <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                                        <div class="dropdown-menu animated--fade-in"
+                                                            aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item"
                                                                 href="{{ route('clientes.show', $cliente) }}">Detalhes</a>
                                                             <a class="dropdown-item"
                                                                 href="{{ route('clientes.edit', $cliente) }}">Editar</a>
-                                                            <form action="{{ route('clientes.destroy', $cliente) }}"
+                                                            <a class="dropdown-item" href="#" data-toggle="modal"
+                                                                data-target="#confirmDeleteModal">Excluir</a>
+                                                            {{-- <form action="{{ route('clientes.destroy', $cliente) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="dropdown-item"
                                                                     onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
-                                                            </form>
+                                                            </form> --}}
                                                         </div>
                                                     </div>
                                                 </td>
@@ -81,6 +90,33 @@
             {{-- @include('footer') --}}
         </div>
     </div>
+    <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja excluir este cliente?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                    @if (isset($cliente))
+                        <form id="deleteClientForm" method="POST" action="{{ route('clientes.destroy', $cliente) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -93,18 +129,17 @@
                 lengthMenu: 'Mostrar _MENU_ registros por página',
                 zeroRecords: 'Nenhum registro encontrado',
                 search: 'Buscar',
-                paginate:{
+                paginate: {
                     next: 'Próximo',
-                    previous:'Anterior',
-                    first:'Primeiro',
-                    last:'Last',
+                    previous: 'Anterior',
+                    first: 'Primeiro',
+                    last: 'Last',
                 }
-                
+
             },
             // lengthMenu: [5 , 10 , 25 , 50, 100],
 
         });
-        
     </script>
     <style>
         .small-font {

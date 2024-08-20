@@ -8,7 +8,8 @@
             <div class="">
                 <div class="">
                     <div class="card-header ">
-                        <h1 class="display-4">Editar Cliente</h1>
+                        <h1 class="h3 mb-2 text-gray-800">Editar cliente</h1>
+                        <h5 class="h6 mb-3 text-gray-800">Cadastros > Clientes > Editar cliente</h5>
                     </div>
                     <div class="row">
                         <div class="card-body">
@@ -89,6 +90,12 @@
                                                 <label for="estado">Estado</label>
                                                 <input type="text" class="form-control" id="estado" name="estado" value="{{ $cliente->endereco->estado }}" required>
                                             </div>
+                                            <div class="form-group col-md-1">
+                                                <label for="maps">Maps</label>
+                                                <button id="searchAddressBtn" class="btn btn-primary">
+                                                    <i class="fa-solid fa-location-dot"></i>
+                                                </button>
+                                            </div>  
                                         </div>
                                     </div>
                                 </div>
@@ -103,6 +110,27 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Adicione um ouvinte de evento ao botão
+        var searchAddressBtn = document.getElementById('searchAddressBtn');
+        searchAddressBtn.addEventListener('click', function() {
+            // Obtenha o valor dos campos de endereço
+            var logradouro = document.getElementById('logradouro').value;
+            var bairro = document.getElementById('bairro').value;
+            var cidade = document.getElementById('cidade').value;
+            var estado = document.getElementById('estado').value;
+            var cep = document.getElementById('cep').value;
+
+            // Crie a URL de pesquisa no Google Maps com base nos valores dos campos
+            var address = logradouro + ', ' + bairro + ', ' + cidade + ', ' + estado + ' ' + cep;
+            var googleMapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(address);
+
+            // Abra uma nova guia com a URL do Google Maps
+            window.open(googleMapsUrl, '_blank');
+        });
+    });
+</script>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
             var cpfRadio = document.getElementById('cpf_radio');

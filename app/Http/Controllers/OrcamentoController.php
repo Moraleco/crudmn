@@ -21,7 +21,8 @@ class OrcamentoController extends Controller
         $clientes = Cliente::all();
         $forma_pagamento = ['Pix', 'Dinheiro', 'Cartão de Crédito', 'Boleto Bancário', 'Transferência Bancária'];
         $situacao_pagamento = ['A Pagar','Pago'];
-        return view('orcamentos.create', compact('clientes', 'forma_pagamento', 'situacao_pagamento'));
+        $status = ['Aguadando Autorização','Autorizado','Recusado','Finalizado'];
+        return view('orcamentos.create', compact('clientes', 'forma_pagamento', 'situacao_pagamento','status'));
     }
     
 

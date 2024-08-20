@@ -25,3 +25,4 @@ Route::resource('orcamentos', OrcamentoController::class);
 Route::get('/orcamentos/{orcamento}/pdf', [OrcamentoController::class, 'generatePDF'])->name('orcamentos.pdf');
 
 
+

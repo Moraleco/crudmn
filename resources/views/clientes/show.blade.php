@@ -1,5 +1,3 @@
-<!-- resources/views/clientes/show.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')

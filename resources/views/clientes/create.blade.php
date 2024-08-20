@@ -184,7 +184,6 @@
 
         
     </script>
-    <!-- Adicione este script à sua página Blade -->
 <script>
     // Função para validar CPF
     function isCPFValid(cpf) {

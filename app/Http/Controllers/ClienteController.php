@@ -107,10 +107,14 @@ class ClienteController extends Controller
 
     public function destroy(Cliente $cliente)
     {
+        // Exclui o endereço associado ao cliente
+        $cliente->endereco->delete();
+    
+        // Exclui o cliente
         $cliente->delete();
-
+    
         return redirect()->route('clientes.index')
-            ->with('success', 'Cliente excluído com sucesso.');
+            ->with('success', 'Cliente e endereço excluídos com sucesso.');
     }
+    
 }
-

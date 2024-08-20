@@ -11,7 +11,7 @@
 
                 <div class="form-group">
                     <label for="cliente_id">Cliente:</label>
-                    <select name="cliente_id" id="cliente_id" class="form-control">
+                    <select name="cliente_id" id="cliente_id" class="form-control js-example-basic-single" style="width: 100%;">
                         @foreach ($clientes as $cliente)
                             <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
                         @endforeach
@@ -30,7 +30,11 @@
 
                 <div class="form-group">
                     <label for="status">Status:</label>
-                    <textarea name="status" id="status" class="form-control"></textarea>
+                    <select name="status" id="status" class="form-control" required>
+                        @foreach ($status as $situacao)
+                        <option value="{{ $situacao }}">{{ $situacao }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -98,8 +102,10 @@
 
                         <div class="form-group">
                             <label for="valor_final">Valor Final:</label>
-                            <input type="number" name="valor_final" id="valor_final" class="form-control" step="0.01"
-                                required>
+                            <div class="">
+                                <input type="text" readonly class="form-control-plaintext" id="valor_final" value="0.0" required>
+                                <input type="hidden" name="valor_final" id="valor_final_hidden" value="0.0">
+                            </div>
                         </div>
 
                     </div>
@@ -111,28 +117,38 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const descontoInput = document.getElementById('desconto');
-            const freteInput = document.getElementById('frete');
-            const outrasTaxasInput = document.getElementById('outras_taxas');
-            const valorDoServicoInput = document.getElementById('valor_do_servico');
-            const valorFinalInput = document.getElementById('valor_final');
+                    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+        
+    });
 
-            [descontoInput, freteInput, outrasTaxasInput, valorDoServicoInput].forEach(function(input) {
-                input.addEventListener('input', calcularValorFinal);
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+    const descontoInput = document.getElementById('desconto');
+    const freteInput = document.getElementById('frete');
+    const outrasTaxasInput = document.getElementById('outras_taxas');
+    const valorDoServicoInput = document.getElementById('valor_do_servico');
+    const valorFinalInput = document.getElementById('valor_final');
+    const valorFinalHiddenInput = document.getElementById('valor_final_hidden');
 
-            function calcularValorFinal() {
-                const desconto = parseFloat(descontoInput.value) || 0;
-                const frete = parseFloat(freteInput.value) || 0;
-                const outrasTaxas = parseFloat(outrasTaxasInput.value) || 0;
-                const valorDoServico = parseFloat(valorDoServicoInput.value) || 0;
-                const valorFinal = valorDoServico + frete + outrasTaxas - desconto;
-                valorFinalInput.value = valorFinal.toFixed(2);
-            }
+    [descontoInput, freteInput, outrasTaxasInput, valorDoServicoInput].forEach(function(input) {
+        input.addEventListener('input', calcularValorFinal);
+    });
 
-            // Calcular o valor final inicialmente
-            calcularValorFinal();
-        });
+    function calcularValorFinal() {
+        const desconto = parseFloat(descontoInput.value) || 0;
+        const frete = parseFloat(freteInput.value) || 0;
+        const outrasTaxas = parseFloat(outrasTaxasInput.value) || 0;
+        const valorDoServico = parseFloat(valorDoServicoInput.value) || 0;
+        const valorFinal = valorDoServico + frete + outrasTaxas - desconto;
+        valorFinalInput.value = valorFinal.toFixed(2);
+        valorFinalHiddenInput.value = valorFinal.toFixed(2); // Atualiza o campo oculto
+    }
+
+    calcularValorFinal();
+});
+
     </script>
+    <style>
+
+    </style>
 @endsection
