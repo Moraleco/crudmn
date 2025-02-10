@@ -116,7 +116,7 @@
     <!-- Sidebar Message -->
     <div class="sidebar-card d-none d-lg-flex">
         <img class="sidebar-card-illustration mb-2" src="{{ asset('img/ifms.png') }}"alt="...">
-        <p class="text-center mb-2"><strong>TCC</strong> para o curso sistemas para internet - TSI <br> Alunos: Gabriel e Giovana</p>
+        <p class="text-center mb-2"><strong>TCC</strong> para o curso sistemas para internet - TSI <br> Alunos: Gabriel, Giovana e Lucas</p>
         <a class="btn btn-success btn-sm" href="https://github.com/Moraleco">Meu GitHub</a>
     </div>
 
