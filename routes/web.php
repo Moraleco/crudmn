@@ -23,6 +23,10 @@ Route::get('/', function () {
 Route::resource('clientes', ClienteController::class);
 Route::resource('orcamentos', OrcamentoController::class);
 Route::get('/orcamentos/{orcamento}/pdf', [OrcamentoController::class, 'generatePDF'])->name('orcamentos.pdf');
+Route::get('/limpar-notificacoes', function () {
+    session()->forget('notificacoes');
+    return redirect()->back();
+})->name('limpar.notificacoes');
 
 
 

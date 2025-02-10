@@ -21,7 +21,7 @@ class OrcamentoController extends Controller
         $clientes = Cliente::all();
         $forma_pagamento = ['Pix', 'Dinheiro', 'Cartão de Crédito', 'Boleto Bancário', 'Transferência Bancária'];
         $situacao_pagamento = ['A Pagar','Pago'];
-        $status = ['Aguadando Autorização','Autorizado','Recusado','Finalizado'];
+        $status = ['Aguardando Autorização','Autorizado','Recusado','Finalizado'];
         return view('orcamentos.create', compact('clientes', 'forma_pagamento', 'situacao_pagamento','status'));
     }
     
@@ -31,20 +31,32 @@ class OrcamentoController extends Controller
         $request->validate([
             'cliente_id' => 'required',
             'servicos' => 'required',
-            'desconto' => 'required',
-            'frete' => 'required',
+            'desconto' => 'required|numeric|min:0',
+            'frete' => 'required|numeric|min:0',
             'status' => 'required',
             'situacao_pagamento' => 'required',
-            'outras_taxas' => 'required',
+            'outras_taxas' => 'required|numeric|min:0',
             'forma_pagamento' => 'required',
-            'valor_do_servico' => 'required',
-            'valor_final' => 'required',
+            'valor_do_servico' => 'required|numeric|min:0',
+            'valor_final' => 'required|numeric|min:0',
         ]);
-
-        Orcamento::create($request->all());
+    
+        $orcamento = Orcamento::create($request->all());
+    
+        // Criar ou atualizar a lista de notificações na sessão
+        $notificacoes = session()->get('notificacoes', []);
+        $notificacoes[] = [
+            'mensagem' => "Novo orçamento criado: #" . $orcamento->id,
+            'link' => route('orcamentos.show', $orcamento->id),
+            'data' => now()->format('d/m/Y H:i')
+        ];
+    
+        session()->put('notificacoes', $notificacoes);
+    
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento criado com sucesso.');
     }
+    
 
     public function show(Orcamento $orcamento)
     {
@@ -54,37 +66,99 @@ class OrcamentoController extends Controller
     public function edit(Orcamento $orcamento)
     {
         $clientes = Cliente::all();
-        return view('orcamentos.edit', compact('orcamento', 'clientes'));
+        $forma_pagamento = ['Pix', 'Dinheiro', 'Cartão de Crédito', 'Boleto Bancário', 'Transferência Bancária'];
+        $situacao_pagamento = ['A Pagar', 'Pago'];
+        $status = ['Aguardando Autorização', 'Autorizado', 'Recusado', 'Finalizado'];
+    
+        return view('orcamentos.edit', compact('orcamento', 'clientes', 'forma_pagamento', 'situacao_pagamento', 'status'));
     }
-
+    
     public function update(Request $request, Orcamento $orcamento)
     {
         $request->validate([
             'cliente_id' => 'required',
             'servicos' => 'required',
-            'desconto' => 'required',
-            'frete' => 'required',
+            'desconto' => 'required|numeric|min:0',
+            'frete' => 'required|numeric|min:0',
             'status' => 'required',
             'situacao_pagamento' => 'required',
-            'outras_taxas' => 'required',
+            'outras_taxas' => 'required|numeric|min:0',
             'forma_pagamento' => 'required',
-            'valor_do_servico' => 'required',
-            'valor_final' => 'required',
+            'valor_do_servico' => 'required|numeric|min:0',
+            'valor_final' => 'required|numeric|min:0',
         ]);
-
+    
+        // Criar ou atualizar a lista de notificações na sessão
+        $notificacoes = session()->get('notificacoes', []);
+    
+        // Verifica mudanças nos campos e adiciona notificações apropriadas
+        if ($orcamento->status !== $request->status) {
+            $notificacoes[] = [
+                'tipo' => 'status',
+                'mensagem' => "Status do orçamento #{$orcamento->id} alterado para '{$request->status}'",
+                'link' => route('orcamentos.show', $orcamento->id),
+                'data' => now()->format('d/m/Y H:i')
+            ];
+        }
+    
+        if ($orcamento->situacao_pagamento !== $request->situacao_pagamento) {
+            $notificacoes[] = [
+                'tipo' => 'pagamento',
+                'mensagem' => "Situação de pagamento do orçamento #{$orcamento->id} alterada para '{$request->situacao_pagamento}'",
+                'link' => route('orcamentos.show', $orcamento->id),
+                'data' => now()->format('d/m/Y H:i')
+            ];
+        }
+    
+        if ($orcamento->valor_do_servico != $request->valor_do_servico) {
+            $notificacoes[] = [
+                'tipo' => 'valor',
+                'mensagem' => "Valor do serviço do orçamento #{$orcamento->id} alterado para R$ {$request->valor_do_servico}",
+                'link' => route('orcamentos.show', $orcamento->id),
+                'data' => now()->format('d/m/Y H:i')
+            ];
+        }
+    
+        if ($orcamento->servicos !== $request->servicos) {
+            $notificacoes[] = [
+                'tipo' => 'servico',
+                'mensagem' => "Serviços do orçamento #{$orcamento->id} foram atualizados",
+                'link' => route('orcamentos.show', $orcamento->id),
+                'data' => now()->format('d/m/Y H:i')
+            ];
+        }
+    
+        session()->put('notificacoes', $notificacoes);
+    
+        // Atualiza o orçamento
         $orcamento->update($request->all());
-
+    
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento atualizado com sucesso.');
     }
+    
+    
 
     public function destroy(Orcamento $orcamento)
     {
+        // Criar ou atualizar a lista de notificações na sessão
+        $notificacoes = session()->get('notificacoes', []);
+        $notificacoes[] = [
+            'tipo' => 'exclusao',
+            'mensagem' => "O orçamento #{$orcamento->id} foi excluído",
+            'link' => route('orcamentos.index'),
+            'data' => now()->format('d/m/Y H:i')
+        ];
+    
+        session()->put('notificacoes', $notificacoes);
+    
+        // Exclui o orçamento
         $orcamento->delete();
-
+    
         return redirect()->route('orcamentos.index')
             ->with('success', 'Orçamento excluído com sucesso.');
     }
+    
 
     public function generatePDF(Orcamento $orcamento)
     {   
