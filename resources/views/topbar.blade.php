@@ -57,6 +57,7 @@
                         @elseif($tipo == 'valor') bg-info 
                         @elseif($tipo == 'servico') bg-primary 
                         @elseif($tipo == 'exclusao') bg-danger
+                        @elseif($tipo == 'cliente_exclusao') bg-dark 
                         @else bg-secondary 
                         @endif">
                         <i class="
@@ -65,6 +66,7 @@
                             @elseif($tipo == 'valor') fas fa-dollar-sign 
                             @elseif($tipo == 'servico') fas fa-tools 
                             @elseif($tipo == 'exclusao') fas fa-trash-alt
+                            @elseif($tipo == 'cliente_exclusao') fas fa-user-times 
                             @else fas fa-bell 
                             @endif text-white"></i>
                     </div>
