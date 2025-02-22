@@ -141,9 +141,9 @@ $('#tabela-orcamentos').DataTable({
 
 /* Cores baseadas no status */
 .aguardando-autorizacao { background-color: yellow; }
-.autorizado { background-color: green; }
-.recusado { background-color: red; }
-.finalizado { background-color: blue; }
+.autorizado { background-color: #1cc88a; }
+.recusado { background-color: #e74a3b; }
+.finalizado { background-color: #4e73df; }
 
 
   

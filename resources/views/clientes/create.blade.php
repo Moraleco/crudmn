@@ -7,11 +7,12 @@
         <div class="">
             <div class="">
                 <div class="">
-                    <div class="card-header ">
+                    <div class="card-header">
                         <h1 class="display-4">Cadastrar Cliente</h1>
                     </div>
                     <div class="row">
                         <div class="card-body">
+                            <!-- Formulário de Cadastro -->
                             <form method="POST" action="{{ route('clientes.store') }}">
                                 @csrf
                                 <div class="card shadow mb-4 border-left-primary">
@@ -22,100 +23,110 @@
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label for="nome">Nome</label>
-                                                <input type="text" class="form-control" id="nome" name="nome" required>
+                                                <input type="text" class="form-control @error('nome') is-invalid @enderror" id="nome" name="nome" value="{{ old('nome') }}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="telefone">Telefone</label>
-                                                <input type="text" class="form-control telefone" id="telefone"
-                                                    name="telefone" required>
+                                                <input type="text" class="form-control telefone @error('telefone') is-invalid @enderror" id="telefone" name="telefone" value="{{ old('telefone') }}" required>
                                             </div>
                                         </div>
+
                                         <!-- Tipo de Documento -->
                                         <div class="form-group">
                                             <label for="documento_type">Tipo de Documento</label><br>
-                                            <input type="radio" id="cpf_radio" name="documento_type" value="cpf"
-                                                checked>
+                                            <input type="radio" id="cpf_radio" name="documento_type" value="cpf" {{ old('documento_type') == 'cpf' ? 'checked' : 'checked' }}>
                                             <label for="cpf_radio">CPF</label>
 
-                                            <input type="radio" id="cnpj_radio" name="documento_type" value="cnpj">
+                                            <input type="radio" id="cnpj_radio" name="documento_type" value="cnpj" {{ old('documento_type') == 'cnpj' ? 'checked' : '' }}>
                                             <label for="cnpj_radio">CNPJ</label>
                                         </div>
 
                                         <!-- CPF e CNPJ -->
                                         <div class="form-group" id="cpf_group">
                                             <label for="cpf">CPF</label>
-                                            <input type="text"
-                                                class="form-control cpf @error('cpf') is-invalid @enderror" id="cpf"
-                                                name="cpf">
-                                            @error('cpf')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            <input type="text" class="form-control cpf @error('cpf') is-invalid @enderror" id="cpf" name="cpf" value="{{ old('cpf') }}">
                                         </div>
 
                                         <div class="form-group" id="cnpj_group" style="display: none;">
                                             <label for="cnpj">CNPJ</label>
-                                            <input type="text"
-                                                class="form-control cnpj @error('cnpj') is-invalid @enderror" id="cnpj"
-                                                name="cnpj">
-                                            @error('cnpj')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            <input type="text" class="form-control cnpj @error('cnpj') is-invalid @enderror" id="cnpj" name="cnpj" value="{{ old('cnpj') }}">
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Campos de Endereço -->
                                 <div class="card shadow mb-4 border-left-primary">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Endereço</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="row g-3">
-                                            <div class=" col-md-2">
+                                            <div class="col-md-2">
                                                 <label for="cep">CEP</label>
-                                                <input type="text" class="form-control cep" id="cep" name="cep"
-                                                    required>
+                                                <input type="text" class="form-control cep @error('cep') is-invalid @enderror" id="cep" name="cep" value="{{ old('cep') }}" required>
                                             </div>
 
-                                            <div class=" col-md-4">
+                                            <div class="col-md-4">
                                                 <label for="logradouro">Logradouro</label>
-                                                <input type="text" class="form-control" id="logradouro"
-                                                    name="logradouro" required>
+                                                <input type="text" class="form-control @error('logradouro') is-invalid @enderror" id="logradouro" name="logradouro" value="{{ old('logradouro') }}" required>
                                             </div>
 
-                                            <div class=" col-md-4">
+                                            <div class="col-md-4">
                                                 <label for="bairro">Bairro</label>
-                                                <input type="text" class="form-control" id="bairro" name="bairro"
-                                                    required>
+                                                <input type="text" class="form-control @error('bairro') is-invalid @enderror" id="bairro" name="bairro" value="{{ old('bairro') }}" required>
                                             </div>
 
-                                            <div class=" col-md-1">
+                                            <div class="col-md-1">
                                                 <label for="numero">Número</label>
-                                                <input type="text" class="form-control" id="numero" name="numero"
-                                                    required>
+                                                <input type="text" class="form-control @error('numero') is-invalid @enderror" id="numero" name="numero" value="{{ old('numero') }}" required>
                                             </div>
 
-                                            <div class="form-group col-md-3">
+                                            <div class="col-md-3">
                                                 <label for="cidade">Cidade</label>
-                                                <input type="text" class="form-control" id="cidade" name="cidade"
-                                                    required>
+                                                <input type="text" class="form-control @error('cidade') is-invalid @enderror" id="cidade" name="cidade" value="{{ old('cidade') }}" required>
                                             </div>
 
-                                            <div class="form-group col-md-1">
+                                            <div class="col-md-1">
                                                 <label for="estado">Estado</label>
-                                                <input type="text" class="form-control" id="estado" name="estado"
-                                                    required>
+                                                <input type="text" class="form-control @error('estado') is-invalid @enderror" id="estado" name="estado" value="{{ old('estado') }}" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
-                                    <button type="submit"
-                                        class="btn btn-success col-md-4 offset-md-8">Cadastrar</button>
+                                    <button type="submit" class="btn btn-success col-md-4 offset-md-8">Cadastrar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Erros -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="errorModalLabel">Erros no Preenchimento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul id="errorList">
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    @endif
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
@@ -189,6 +200,11 @@
             cnpjGroup.style.display = 'block';
             cpfGroup.style.display = 'none';
         });
+        
+        // Exibir modal de erro automaticamente caso existam erros
+        @if ($errors->any())
+            $('#errorModal').modal('show');
+        @endif
     });
 </script>
 
