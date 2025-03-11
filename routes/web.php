@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\OrcamentoController;
+use App\Http\Controllers\RelatorioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::get('/', function () {
 
 Route::resource('clientes', ClienteController::class);
 Route::resource('orcamentos', OrcamentoController::class);
+Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios.index');
 Route::get('/orcamentos/{orcamento}/pdf', [OrcamentoController::class, 'generatePDF'])->name('orcamentos.pdf');
 Route::get('/limpar-notificacoes', function () {
     session()->forget('notificacoes');
