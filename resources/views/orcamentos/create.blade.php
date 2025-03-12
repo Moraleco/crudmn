@@ -2,12 +2,11 @@
 
 @section('content')
 <div class="d-flex">
-    @include('sidebar')
     <div class="container">
         <div class="">
-            <div class="card-header py-4">
+            {{-- <div class="card-header py-4">
                 <h1 class="display-4 text-center">Criar Novo Orçamento</h1>
-            </div>
+            </div> --}}
             <div class="card-body pb-5">
                 <form action="{{ route('orcamentos.store') }}" method="POST">
                     @csrf

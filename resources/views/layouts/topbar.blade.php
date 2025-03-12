@@ -11,12 +11,44 @@
                 <i class="fas fa-bell fa-fw"></i>
                 <span class="badge badge-danger badge-counter">{{ count(session('notificacoes', [])) }}</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right shadow">
-                <h6 class="dropdown-header">Notificações</h6>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+                <h6 class="dropdown-header d-flex justify-content-between align-items-center">
+                    Notificações
+                    @if(session()->has('notificacoes') && count(session('notificacoes')) > 0)
+                    <a href="{{ route('limpar.notificacoes') }}" class="small text-danger">Limpar Tudo</a>
+                    @endif
+                </h6>
+
                 @forelse(session('notificacoes', []) as $notificacao)
-                    <a class="dropdown-item" href="{{ $notificacao['link'] }}">
-                        <div class="small text-gray-500">{{ $notificacao['data'] }}</div>
-                        <span class="font-weight-bold">{{ $notificacao['mensagem'] }}</span>
+                    <a class="dropdown-item d-flex align-items-center" href="{{ $notificacao['link'] }}">
+                        <div class="mr-3">
+                            @php
+                                $tipo = $notificacao['tipo'] ?? 'outro';
+                            @endphp
+                            <div class="icon-circle 
+                                @if($tipo == 'status') bg-warning 
+                                @elseif($tipo == 'pagamento') bg-success 
+                                @elseif($tipo == 'valor') bg-info 
+                                @elseif($tipo == 'servico') bg-primary 
+                                @elseif($tipo == 'exclusao') bg-danger
+                                @elseif($tipo == 'cliente_exclusao') bg-dark 
+                                @else bg-secondary 
+                                @endif">
+                                <i class="
+                                    @if($tipo == 'status') fas fa-exclamation-triangle 
+                                    @elseif($tipo == 'pagamento') fas fa-money-bill-wave 
+                                    @elseif($tipo == 'valor') fas fa-dollar-sign 
+                                    @elseif($tipo == 'servico') fas fa-tools 
+                                    @elseif($tipo == 'exclusao') fas fa-trash-alt
+                                    @elseif($tipo == 'cliente_exclusao') fas fa-user-times 
+                                    @else fas fa-bell 
+                                    @endif text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">{{ $notificacao['data'] ?? now()->format('d/m/Y H:i') }}</div>
+                            <span class="font-weight-bold">{{ $notificacao['mensagem'] ?? 'Notificação sem mensagem' }}</span>
+                        </div>
                     </a>
                 @empty
                     <a class="dropdown-item text-center small text-gray-500" href="#">Nenhuma notificação</a>

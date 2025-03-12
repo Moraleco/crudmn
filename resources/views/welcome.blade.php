@@ -3,9 +3,7 @@
 @section('content')
 
 <div class="d-flex" id="page-top">  
-    @include('sidebar')
     <div class="flex-grow-1">
-        @include('topbar') 
         <div class="container-fluid">
             <div class="jumbotron">
                 <h1 class="display-4">Bem-vindo ao Sistema de Gestão de Orçamentos</h1>

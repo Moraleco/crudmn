@@ -5,60 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OrcaFacil - Sistema de Orçamentos</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    {{-- CSS Global --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('img/icon.ico')}}" type="image/x-icon">
-    {{-- <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
-    <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
-    <!-- DataTables CSS -->
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> --}}
-    {{-- <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    
+    {{-- Fontes e Ícones --}}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77c7bbe9b9.js" crossorigin="anonymous"></script>
-    <!-- Arquivos CSS do Bootstrap -->
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> --}}
+    {{-- DataTables CSS (somente onde necessário) --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    {{-- @stack('styles') --}}
+
 </head>
 
 <body id="page-top">
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top" style="z-index: 1">
+    <!-- Wrapper -->
+    <div id="wrapper">
+        @include('layouts.sidebar')
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                @include('layouts.topbar')
+
+                <!-- Conteúdo Principal -->
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Scroll to Top --}}
+    <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <div class="">
-        @yield('content')
-       
-    </div>
-    
-    {{-- Jquery --}}
-    
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
-
-    {{-- SB Admin 2 --}}
+    <!-- Scripts Globais -->
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/sb-admin-2.js') }}"></script>
-    {{-- <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
-    
-    {{-- DataTables JS  --}}
-    <script src="{{ asset('js/demo/datatables.demo.js') }}"></script>
-    {{-- <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    
-    {{-- JavaScript do Bootstrap --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-    </script>
+
+    {{-- Scripts específicos de páginas --}}
+    {{-- @stack('scripts') --}}
 
 </body>
-
 </html>

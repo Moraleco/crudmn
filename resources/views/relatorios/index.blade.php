@@ -3,10 +3,8 @@
 @section('content')
     <!-- Page Wrapper -->
     <div id="wrapper">
-        @include('sidebar')
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-                @include('topbar')
                 <div class="container-fluid">
                     <h1 class="h3 mb-2 text-gray-800">Relatórios de Ordens de Serviço</h1>
 

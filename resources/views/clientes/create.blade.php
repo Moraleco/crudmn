@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="d-flex">
-    @include('sidebar')
     <div class="container">
         <div class="">
             <div class="">
