@@ -68,40 +68,48 @@ class ClienteController extends Controller
     }
 
     public function update(Request $request, Cliente $cliente)
-    {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'telefone' => 'required|string|max:20',
-            'documento_type' => 'required|in:cpf,cnpj',
-            'cpf' => ['nullable', 'unique:clientes,cpf,' . $cliente->id, 'cpf'],
-            'cnpj' => ['nullable', 'unique:clientes,cnpj,' . $cliente->id, 'cnpj'],
-            'logradouro' => 'required|string|max:255',
-            'numero' => 'required|string|max:10',
-            'cidade' => 'required|string|max:255',
-            'bairro' => 'required|string|max:255',
-            'estado' => 'required|string|max:2',
-            'cep' => 'required|string|max:9',
-        ]);
+{
+    // Validação dos campos
+    $request->validate([
+        'nome' => 'required|string|max:255',
+        'telefone' => 'required|string|max:20',
+        'documento_type' => 'required|in:cpf,cnpj',
+        'cpf' => ['nullable', 'unique:clientes,cpf,' . $cliente->id, 'cpf'],
+        'cnpj' => ['nullable', 'unique:clientes,cnpj,' . $cliente->id, 'cnpj'],
+        'logradouro' => 'required|string|max:255',
+        'numero' => 'required|string|max:10',
+        'cidade' => 'required|string|max:255',
+        'bairro' => 'required|string|max:255',
+        'estado' => 'required|string|max:2',
+        'cep' => 'required|string|max:9',
+    ]);
 
-        $clienteData = $request->except(['_token', 'documento_type', 'cpf', 'cnpj', 'logradouro', 'numero', 'cidade', 'bairro', 'estado', 'cep']);
-        if ($request->input('documento_type') === 'cpf') {
-            $clienteData['cpf'] = $request->input('cpf');
-            $clienteData['cnpj'] = null;
-        } elseif ($request->input('documento_type') === 'cnpj') {
-            $clienteData['cnpj'] = $request->input('cnpj');
-            $clienteData['cpf'] = null;
-        }
+    // Atualizando os dados do cliente
+    $clienteData = $request->except(['_token', 'documento_type', 'cpf', 'cnpj', 'logradouro', 'numero', 'cidade', 'bairro', 'estado', 'cep']);
 
-        $cliente->update($clienteData);
-
-        // Atualizar o endereço associado ao cliente
-        $enderecoData = $request->only(['logradouro', 'numero', 'cidade', 'bairro', 'estado', 'cep']);
-        $cliente->endereco->update($enderecoData);
-
-        return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso.');
+    // Ajustando CPF/CNPJ
+    if ($request->input('documento_type') === 'cpf') {
+        $clienteData['cpf'] = $request->input('cpf');
+        $clienteData['cnpj'] = null;
+    } elseif ($request->input('documento_type') === 'cnpj') {
+        $clienteData['cnpj'] = $request->input('cnpj');
+        $clienteData['cpf'] = null;
     }
 
+    // Atualiza o cliente
+    $cliente->update($clienteData);
 
+    // Atualizar o endereço associado ao cliente (se existir)
+    if ($cliente->endereco) {
+        $enderecoData = $request->only(['logradouro', 'numero', 'cidade', 'bairro', 'estado', 'cep']);
+        $cliente->endereco->update($enderecoData);
+    } else {
+        // Se o cliente não tiver endereço, cria um novo
+        $cliente->endereco()->create($request->only(['logradouro', 'numero', 'cidade', 'bairro', 'estado', 'cep']));
+    }
+
+    return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso.');
+}
 
     public function destroy(Cliente $cliente)
     {
