@@ -159,35 +159,48 @@ class OrcamentoController extends Controller
             ->with('success', 'Orçamento excluído com sucesso.');
     }
     
-
     public function generatePDF(Orcamento $orcamento)
-    {   
-        $logo=base64_encode(file_get_contents(storage_path("app/public/img/logo.png")));
-        
-        // Crie uma instância do Dompdf
+    {
+        // Busca a configuração da empresa para obter a logo
+        $configuracao = \App\Models\Configuracao::first();
+    
+        // Caminho correto da logo (se existir)
+        $logoPath = $configuracao && $configuracao->logo ? public_path('img/logo/' . $configuracao->logo) : null;
+        $logoBase64 = null;
+    
+        // Se a logo existir, converte para base64
+        if ($logoPath && file_exists($logoPath)) {
+            $logoData = file_get_contents($logoPath);
+            $logoBase64 = 'data:image/' . pathinfo($logoPath, PATHINFO_EXTENSION) . ';base64,' . base64_encode($logoData);
+        }
+    
+        // Criar uma instância do Dompdf
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
     
         $dompdf = new Dompdf($options);
     
-        // Carregue a visão 'orcamentos.pdf' com os dados do orçamento
-        $html = view('orcamentos.pdf', compact('orcamento','logo'))->render();
+        // Carregar a visão do PDF com os dados do orçamento e a logo em base64
+        $html = view('orcamentos.pdf', compact('orcamento', 'configuracao', 'logoBase64'))->render();
     
-        // Carregue o conteúdo HTML no Dompdf
+        // Carregar o conteúdo HTML no Dompdf
         $dompdf->loadHtml($html);
     
-        // Defina opções de renderização, se necessário
+        // Definir o formato do papel (A4 retrato)
         $dompdf->setPaper('A4', 'portrait');
     
-        // Renderize o PDF
+        // Renderizar o PDF
         $dompdf->render();
     
-        // O nome do arquivo PDF gerado
+        // Nome do arquivo PDF gerado
         $filename = 'orcamento_' . $orcamento->id . '.pdf';
     
-        // Faça o download do PDF para o navegador
+        // Enviar o PDF para download
         return $dompdf->stream($filename);
     }
+    
+    
+    
 
 }

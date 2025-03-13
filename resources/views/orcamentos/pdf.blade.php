@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orçamento #{{ $orcamento->id }}</title>
 
-    <!-- Estilo Moderno e Profissional -->
     <style>
-        /* ======= Reset Global ======= */
         * {
             margin: 0;
             padding: 0;
@@ -32,17 +31,28 @@
             border-top: 5px solid #007bff;
         }
 
-        /* ======= Cabeçalho ======= */
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-container img {
+            max-width: 150px;
+            max-height: 150px;
         }
 
         .header h1 {
-            font-size: 22px;
+            font-size: 24px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #007bff;
+            margin-bottom: 5px;
         }
 
         .header p {
@@ -50,27 +60,26 @@
             color: #555;
         }
 
-        /* ======= Informações ======= */
-        .info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+        .info-box {
+            border: 1px solid #ddd;
             padding: 15px;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: black;
             border-radius: 5px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
         }
 
-        .info div {
-            text-align: left;
+        .info-box h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            color: #007bff;
         }
 
-        .info div p {
-            margin: 5px 0;
+        .info-box p {
+            margin: 3px 0;
             font-size: 14px;
         }
 
-        /* ======= Tabelas ======= */
         .table {
             width: 100%;
             border-collapse: collapse;
@@ -90,12 +99,10 @@
             border-bottom: 1px solid #ddd;
         }
 
-        /* Alternância de cores */
         .table tr:nth-child(even) {
             background: #f8f9fa;
         }
 
-        /* ======= Total ======= */
         .total {
             text-align: right;
             font-size: 18px;
@@ -105,7 +112,6 @@
             border-radius: 5px;
         }
 
-        /* ======= Rodapé ======= */
         .footer {
             text-align: center;
             font-size: 12px;
@@ -115,28 +121,40 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <!-- Cabeçalho -->
+        <!-- Logo e Título -->
         <div class="header">
+            <div class="logo-container">
+                @if(isset($logoBase64))
+                    <img src="{{ $logoBase64 }}" alt="Logo da Empresa">
+                @endif
+            </div>
             <h1>Orçamento #{{ $orcamento->id }}</h1>
             <p>Emitido em: {{ now()->format('d/m/Y H:i') }}</p>
         </div>
 
-        <!-- Informações do Cliente -->
-        <div class="info">
-            <div>
-                <p><strong>Cliente:</strong> {{ $orcamento->cliente->nome ?? 'Não informado' }}</p>
-                <p><strong>Telefone:</strong> {{ $orcamento->cliente->telefone ?? '-' }}</p>
-            </div>
-            <div>
-                <p><strong>Forma de Pagamento:</strong> {{ $orcamento->forma_pagamento }}</p>
-                <p><strong>Situação do Pagamento:</strong> {{ $orcamento->situacao_pagamento }}</p>
-                <p><strong>Status:</strong> {{ $orcamento->status }}</p>
-            </div>
+        <!-- Informações da Empresa -->
+        <div class="info-box">
+            <h3>Dados da Empresa</h3>
+            <p><strong>Empresa:</strong> {{ $configuracao->nome_empresa ?? 'Não Informado' }}</p>
+            <p><strong>CNPJ:</strong> {{ $configuracao->cnpj ?? '-' }}</p>
+            <p><strong>Telefone:</strong> {{ $configuracao->telefone ?? '-' }}</p>
+            <p><strong>Email:</strong> {{ $configuracao->email ?? '-' }}</p>
+            <p><strong>Endereço:</strong> {{ $configuracao->endereco ?? '-' }}, {{ $configuracao->cidade ?? '-' }} - {{ $configuracao->estado ?? '-' }}</p>
         </div>
-        
+
+        <!-- Informações do Cliente -->
+        <div class="info-box">
+            <h3>Dados do Cliente</h3>
+            <p><strong>Nome:</strong> {{ $orcamento->cliente->nome ?? 'Não informado' }}</p>
+            <p><strong>Telefone:</strong> {{ $orcamento->cliente->telefone ?? '-' }}</p>
+            <p><strong>Forma de Pagamento:</strong> {{ $orcamento->forma_pagamento }}</p>
+            <p><strong>Situação do Pagamento:</strong> {{ $orcamento->situacao_pagamento }}</p>
+            <p><strong>Status:</strong> {{ $orcamento->status }}</p>
+        </div>
 
         <!-- Tabela de Serviços -->
         <table class="table">
@@ -180,9 +198,10 @@
         <!-- Rodapé -->
         <div class="footer">
             <p>Este orçamento foi gerado automaticamente.</p>
-            <p>© {{ date('Y') }} - Orça Facil</p>
+            <p>© {{ date('Y') }} - {{ $configuracao->nome_empresa ?? 'Orça Fácil' }}</p>
         </div>
     </div>
 
 </body>
+
 </html>
