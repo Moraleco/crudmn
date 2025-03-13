@@ -1,134 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orçamento em PDF</title>
+    <title>Orçamento #{{ $orcamento->id }}</title>
+
+    <!-- Estilo Moderno e Profissional -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* ======= Reset Global ======= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
+
+        body {
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            background: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #007bff;
+        }
+
+        /* ======= Cabeçalho ======= */
         .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #007bff;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* ======= Informações ======= */
+        .info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background-color: #f2f2f2;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: black;
+            border-radius: 5px;
         }
-        .header img {
-            max-height: 80px; /* Ajuste o tamanho da imagem conforme necessário */
+
+        .info div {
+            text-align: left;
         }
-        .company-info {
-            text-align: right;
+
+        .info div p {
+            margin: 5px 0;
+            font-size: 14px;
         }
-        table {
+
+        /* ======= Tabelas ======= */
+        .table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            font-size: 10px; /* Ajuste o tamanho da fonte conforme necessário */
         }
-        table, th, td {
-            border: 1px solid #000;
-        }
-        th, td {
-            padding: 5px;
+
+        .table th {
+            background: #007bff;
+            color: white;
             text-align: left;
+            padding: 10px;
+            border-radius: 3px;
         }
-        th {
-            background-color: #f2f2f2;
+
+        .table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Alternância de cores */
+        .table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* ======= Total ======= */
+        .total {
+            text-align: right;
+            font-size: 18px;
             font-weight: bold;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
         }
-        .no-border td {
-            border: none;
-        }
-        .subtable {
-            width: 100%;
-        }
-        .subtable th {
-            background-color: #f2f2f2;
-            font-weight: bold;
+
+        /* ======= Rodapé ======= */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="data:image/png;base64, {{ $logo }}" alt="" width="350px" height="200px" />
-        {{-- <img src='{{storage_path("app/public/img/logo.png")}}' style="width: 40px"> --}}
-        {{-- <img src='C:/Users/GabrielMoraleco/Documents/IFMS/crudmn/public/img/ifms.png' alt=""> --}}
-        <div class="company-info">
-            <p>Nome da Empresa</p>
-            <p>Endereço da Empresa</p>
-            <p>Telefone: (123) 456-7890</p>
-            <!-- Adicione outras informações da empresa aqui -->
+
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <h1>Orçamento #{{ $orcamento->id }}</h1>
+            <p>Emitido em: {{ now()->format('d/m/Y H:i') }}</p>
+        </div>
+
+        <!-- Informações do Cliente -->
+        <div class="info">
+            <div>
+                <p><strong>Cliente:</strong> {{ $orcamento->cliente->nome ?? 'Não informado' }}</p>
+                <p><strong>Telefone:</strong> {{ $orcamento->cliente->telefone ?? '-' }}</p>
+            </div>
+            <div>
+                <p><strong>Forma de Pagamento:</strong> {{ $orcamento->forma_pagamento }}</p>
+                <p><strong>Situação do Pagamento:</strong> {{ $orcamento->situacao_pagamento }}</p>
+                <p><strong>Status:</strong> {{ $orcamento->status }}</p>
+            </div>
+        </div>
+        
+
+        <!-- Tabela de Serviços -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descrição do Serviço</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $orcamento->servicos }}</td>
+                    <td>R$ {{ number_format($orcamento->valor_do_servico, 2, ',', '.') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Valores -->
+        <table class="table">
+            <tr>
+                <td><strong>Desconto</strong></td>
+                <td>R$ {{ number_format($orcamento->desconto, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td><strong>Frete</strong></td>
+                <td>R$ {{ number_format($orcamento->frete, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td><strong>Outras Taxas</strong></td>
+                <td>R$ {{ number_format($orcamento->outras_taxas, 2, ',', '.') }}</td>
+            </tr>
+            <tr class="total">
+                <td>Total a Pagar:</td>
+                <td>R$ {{ number_format($orcamento->valor_final, 2, ',', '.') }}</td>
+            </tr>
+        </table>
+
+        <!-- Observações -->
+        <p><strong>Observações:</strong> {{ $orcamento->observacoes ?? 'Nenhuma observação adicional.' }}</p>
+
+        <!-- Rodapé -->
+        <div class="footer">
+            <p>Este orçamento foi gerado automaticamente.</p>
+            <p>© {{ date('Y') }} - Orça Facil</p>
         </div>
     </div>
 
-    <h1>Orçamento</h1>
-
-    <!-- Informações do Cliente -->
-    <h2>Informações do Cliente</h2>
-    <table>
-        <tr>
-            <th>Cliente</th>
-            <td>{{ $orcamento->cliente->nome }}</td>
-        </tr>
-        <!-- ... Conteúdo da tabela ... -->
-    </table>
-
-    <!-- Serviços -->
-    <h2>Serviços</h2>
-    <table>
-        <tr>
-            <th>Serviços</th>
-            <td>{{ $orcamento->servicos }}</td>
-        </tr>
-        <!-- ... Conteúdo da tabela ... -->
-    </table>
-
-    <!-- Informações Adicionais -->
-    <h2>Informações Adicionais</h2>
-    <table>
-        <tr>
-            <th>Informações Adicionais</th>
-            <td>{{ $orcamento->informacoes_adicionais }}</td>
-        </tr>
-        <!-- ... Conteúdo da tabela ... -->
-    </table>
-
-    <!-- Transporte -->
-    <h2>Transporte</h2>
-    <table>
-        <tr>
-            <th>Frete</th>
-            <td>{{ $orcamento->frete }}</td>
-        </tr>
-        <!-- ... Conteúdo da tabela ... -->
-    </table>
-
-    <!-- Pagamento -->
-    <h2>Pagamento</h2>
-    <table>
-        <tr>
-            <th>Valor do Serviço</th>
-            <td>{{ $orcamento->valor_do_servico }}</td>
-        </tr>
-        <tr>
-            <th>Outras Taxas</th>
-            <td>{{ $orcamento->outras_taxas }}</td>
-        </tr>
-        <tr>
-            <th>Forma de Pagamento</th>
-            <td>{{ $orcamento->forma_pagamento }}</td>
-        </tr>
-        <tr>
-            <th>Desconto</th>
-            <td>{{ $orcamento->desconto }}</td>
-        </tr>
-        <tr class="no-border">
-            <th>Total</th>
-            <td>{{ $orcamento->valor_final }}</td>
-        </tr>
-    </table>
 </body>
 </html>

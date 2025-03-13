@@ -63,7 +63,7 @@
         <div id="collapseRelatorios" class="collapse" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Relatórios</h6>
-                <a class="collapse-item" href="{{route('relatorios.index')}}">Ver Relatórios</a>
+                <a class="collapse-item" href="{{route('relatorios.index')}}">Relatórios de O.S</a>
             </div>
         </div>
     </li>

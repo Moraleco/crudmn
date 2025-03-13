@@ -7,7 +7,7 @@
             <div class="">
                 <div class="">
                     <div class="card-header">
-                        <h1 class="h3 mb-2 text-gray-800">Editar cliente</h1>
+                        <h1 class="h3 mb-2 text-gray-800">Editar Cliente</h1>
                         <h5 class="h6 mb-3 text-gray-800">Cadastros > Clientes > Editar cliente</h5>
                     </div>
 
