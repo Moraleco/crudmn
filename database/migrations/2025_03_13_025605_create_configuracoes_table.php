@@ -4,25 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateConfiguracoesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::table('configuracoes', function (Blueprint $table) {
-            //
+        Schema::create('configuracoes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nome_empresa');
+            $table->string('cnpj')->nullable();
+            $table->string('telefone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('endereco')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('cep')->nullable();
+            $table->string('logo')->nullable();
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::table('configuracoes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('configuracoes');
     }
-};
+}

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\RelatorioController;
+use App\Http\Controllers\ConfiguracaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::get('/limpar-notificacoes', function () {
     session()->forget('notificacoes');
     return redirect()->back();
 })->name('limpar.notificacoes');
+Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('configuracoes.index');
+Route::post('/configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update');
+
 
 
 

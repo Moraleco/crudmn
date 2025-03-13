@@ -37,8 +37,8 @@
 
     <!-- Ordens de Serviço -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOS"
-            aria-expanded="false" aria-controls="collapseOS">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOS" aria-expanded="false"
+            aria-controls="collapseOS">
             <i class="fas fa-fw fa-wrench"></i>
             <span>Ordem de Serviço</span>
         </a>
@@ -68,9 +68,27 @@
         </div>
     </li>
 
+    <!-- Nav Item - Configurações -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConfiguracoes"
+            aria-expanded="true" aria-controls="collapseConfiguracoes">
+            <i class="fas fa-fw fa-cogs"></i>
+            <span>Configurações</span>
+        </a>
+        <div id="collapseConfiguracoes" class="collapse" aria-labelledby="headingConfiguracoes"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Configuração Geral:</h6>
+                <a class="collapse-item" href="{{ route('configuracoes.index') }}">Empresa</a>
+            </div>
+        </div>
+    </li>
+
+
     <div class="sidebar-card d-none d-lg-flex">
         <img class="sidebar-card-illustration mb-2" src="{{ asset('img/ifms.png') }}" alt="...">
-        <p class="text-center mb-2"><strong>TCC</strong> para o curso Sistemas para Internet - TSI <br> Alunos: Gabriel, Giovana e Lucas</p>
+        <p class="text-center mb-2"><strong>TCC</strong> para o curso Sistemas para Internet - TSI <br> Alunos: Gabriel,
+            Giovana e Lucas</p>
         <a class="btn btn-success btn-sm" href="https://github.com/Moraleco">Meu GitHub</a>
     </div>
 
