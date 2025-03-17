@@ -29,7 +29,12 @@
                                             <tr>
                                                 <td>{{ $orcamento->id }}</td>
                                                 <td class="wider">{{ $orcamento->cliente->nome }}</td>
-                                                <td>{{ $orcamento->servicos }}</td>
+                                                <td>
+                                                    @foreach ($orcamento->servicos as $servico)
+                                                        {{ $servico->descricao }} (R$ {{ number_format($servico->valor, 2, ',', '.') }}) <br>
+                                                    @endforeach
+                                                </td>
+                                                
                                                 <td>{{ $orcamento->valor_final }}</td>
                                                 <td>
                                                     @php

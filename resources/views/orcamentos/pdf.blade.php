@@ -165,10 +165,12 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($orcamento->servicos as $servico)
                 <tr>
-                    <td>{{ $orcamento->servicos }}</td>
-                    <td>R$ {{ number_format($orcamento->valor_do_servico, 2, ',', '.') }}</td>
+                    <td>{{ $servico->descricao }}</td>
+                    <td>R$ {{ number_format($servico->valor, 2, ',', '.') }}</td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
 
