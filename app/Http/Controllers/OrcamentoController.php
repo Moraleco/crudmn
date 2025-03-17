@@ -72,43 +72,53 @@ class OrcamentoController extends Controller
 
         $orcamento->load('servicos');
 
-        return view('orcamentos.edit', compact('orcamento', 'clientes', 'forma_pagamento', 'situacao_pagamento', 'status'));
+        return view('orcamentos.edit', compact('orcamento', 'clientes', 'forma_pagamento', 'situacao_pagamento', 'status',));
+        
     }
 
     public function update(Request $request, Orcamento $orcamento)
-    {
-        $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
-            'desconto' => 'required|numeric|min:0',
-            'frete' => 'required|numeric|min:0',
-            'status' => 'required',
-            'situacao_pagamento' => 'required',
-            'outras_taxas' => 'required|numeric|min:0',
-            'forma_pagamento' => 'required',
-            'servicos' => 'required|array|min:1',
-            'servicos.*.descricao' => 'required|string|max:200',
-            'servicos.*.valor' => 'required|numeric|min:0',
+{
+    $request->validate([
+        'cliente_id' => 'required|exists:clientes,id',
+        'desconto' => 'required|numeric|min:0',
+        'frete' => 'required|numeric|min:0',
+        'status' => 'required',
+        'situacao_pagamento' => 'required',
+        'outras_taxas' => 'required|numeric|min:0',
+        'forma_pagamento' => 'required',
+        'servicos' => 'required|array|min:1',
+        'servicos.*.descricao' => 'required|string|max:200',
+        'servicos.*.valor' => 'required|numeric|min:0',
+    ]);
+
+    // Atualiza os dados básicos do orçamento
+    $orcamento->update($request->except('servicos'));
+
+    // Deleta os serviços antigos
+    $orcamento->servicos()->delete();
+
+    // Insere os novos serviços e soma os valores
+    $totalServicos = 0;
+    foreach ($request->servicos as $servico) {
+        $novoServico = $orcamento->servicos()->create([
+            'descricao' => $servico['descricao'],
+            'valor' => $servico['valor'],
         ]);
-
-        $orcamento->update($request->except('servicos'));
-
-        $orcamento->servicos()->delete();
-
-        foreach ($request->servicos as $servico) {
-            $orcamento->servicos()->create([
-                'descricao' => $servico['descricao'],
-                'valor' => $servico['valor'],
-            ]);
-        }
-
-        session()->push('notificacoes', [
-            'mensagem' => "Orçamento atualizado: #" . $orcamento->id,
-            'link' => route('orcamentos.show', $orcamento->id),
-            'data' => now()->format('d/m/Y H:i')
-        ]);
-
-        return redirect()->route('orcamentos.index')->with('success', 'Orçamento atualizado com sucesso.');
+        $totalServicos += $novoServico->valor;
     }
+
+    // Recalcula o valor final do orçamento
+    $valorFinal = $totalServicos + $orcamento->frete + $orcamento->outras_taxas - $orcamento->desconto;
+    $orcamento->update(['valor_final' => $valorFinal]);
+
+    session()->push('notificacoes', [
+        'mensagem' => "Orçamento atualizado: #" . $orcamento->id,
+        'link' => route('orcamentos.show', $orcamento->id),
+        'data' => now()->format('d/m/Y H:i')
+    ]);
+
+    return redirect()->route('orcamentos.index')->with('success', 'Orçamento atualizado com sucesso.');
+}
 
     public function destroy(Orcamento $orcamento)
     {
