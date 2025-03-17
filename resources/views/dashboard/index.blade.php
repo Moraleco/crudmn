@@ -152,6 +152,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <!-- Estilos Personalizados -->
 <style>
+.card-body {
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    overflow: hidden; /* Evita que o conteúdo ultrapasse o card */
+    text-overflow: ellipsis; /* Adiciona "..." caso o texto fique muito grande */
+}
+
+.card-body h6 {
+    font-size: 14px; /* Reduz um pouco o tamanho do título */
+}
+
+.card-body h3 {
+    font-size: 20px; /* Mantém um tamanho legível para os números */
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 768px) {
+    .card-body {
+        white-space: normal; /* Permite quebra de linha apenas em telas pequenas */
+        text-align: center;
+    }
+}
+
 .dashboard-icon {
     display: flex;
     align-items: center;
