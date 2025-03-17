@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::get('/limpar-notificacoes', function () {
 })->name('limpar.notificacoes');
 Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('configuracoes.index');
 Route::post('/configuracoes', [ConfiguracaoController::class, 'update'])->name('configuracoes.update');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
 

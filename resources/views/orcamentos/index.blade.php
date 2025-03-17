@@ -21,6 +21,7 @@
                             <th>Serviços</th>
                             <th>Valor Final</th>
                             <th>Status</th>
+                            <th>Pagamento</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -43,6 +44,7 @@
                                 <span class="status-dot {{ $statusFormatado }}"></span>
                                 {{ $orcamento->status }}
                             </td>
+                            <td>{{ $orcamento->situacao_pagamento}}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"
@@ -195,7 +197,7 @@
             margin-right: 5px;
         }
 
-        .aguardando-autorizacao { background-color: yellow; }
+        .aguardando-autorizacao { background-color: #f6c23e; }
         .autorizado { background-color: #1cc88a; }
         .recusado { background-color: #e74a3b; }
         .finalizado { background-color: #4e73df; }

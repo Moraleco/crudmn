@@ -4,6 +4,8 @@
     <div class="d-flex">
         <div class="container">
             <div class="">
+                <h1 class="h3 mb-2 text-gray-800">Editar Ordem de Serviço</h1>
+                <h5 class="h6 mb-3 text-gray-800">Ordem de Serviço > Ver Ordems > Editar</h5>
                 <div class="card-body pb-5">
                     <form action="{{ route('orcamentos.update', $orcamento->id) }}" method="POST">
                         @csrf

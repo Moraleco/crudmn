@@ -4,9 +4,8 @@
     <div class="d-flex">
         <div class="container">
             <div class="">
-                {{-- <div class="card-header py-4">
-                    <h1 class="display-4 text-center">Criar Novo Orçamento</h1>
-                </div> --}}
+                <h1 class="h3 mb-2 text-gray-800">Nova Ordem de Serviço</h1>
+                <h5 class="h6 mb-3 text-gray-800">Ordem de Serviço > Ordem</h5>
                 <div class="card-body pb-5">
                     <form action="{{ route('orcamentos.store') }}" method="POST">
                         @csrf
