@@ -120,7 +120,12 @@
                                             <tr>
                                                 <td>{{ $orcamento->id }}</td>
                                                 <td>{{ $orcamento->cliente->nome ?? 'Não informado' }}</td>
-                                                <td>{{ $orcamento->servicos }}</td>
+                                                <td>
+                                                    @php
+                                                        $servicosTexto = $orcamento->servicos->map(fn($s) => "{$s->descricao} (R$ ".number_format($s->valor, 2, ',', '.').")")->implode(', ');
+                                                    @endphp
+                                                    {{ strlen($servicosTexto) > 60 ? substr($servicosTexto, 0, 60) . '...' : $servicosTexto }}
+                                                </td>
                                                 <td>{{ $orcamento->status }}</td>
                                                 <td>{{ $orcamento->forma_pagamento }}</td>
                                                 <td>{{ $orcamento->situacao_pagamento }}</td>
